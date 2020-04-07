@@ -14,3 +14,4 @@ This is a repository to hold Dockerfiles that I create.
 
 - [Standalone Customized MySQL 5.7](mysql/customized-mysql)
 - [MySQL 5.7 with tpcc-mysql](mysql/tpcc-mysql)
+- [MySQL 5.7 with lb-mysql](mysql/lb-mysql)
