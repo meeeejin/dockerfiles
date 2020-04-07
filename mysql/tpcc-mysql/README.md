@@ -72,7 +72,11 @@ meeeejin/tpcc-mysql   latest              6934971ecdb7        41 minutes ago    
 ```bash
 $ mkdir datadir
 $ sudo chown -R 999:docker datadir
-$ sudo docker run -it --name test -v /path/to/host/datadir:/var/lib/mysql meeeejin/tpcc-mysql:latest
+$ sudo docker run -it \
+  --name test \
+  -v /path/to/host/datadir:/var/lib/mysql \
+  -v /path/to/host/logdir:/var/log/mysql \
+  meeeejin/tpcc-mysql:latest
 ```
 
 4. Check the status of the created container:
