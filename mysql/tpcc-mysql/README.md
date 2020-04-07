@@ -71,7 +71,9 @@ meeeejin/tpcc-mysql   latest              6934971ecdb7        41 minutes ago    
 
 ```bash
 $ mkdir datadir
+$ mkdir logdir
 $ sudo chown -R 999:docker datadir
+$ sudo chown -R 999:docker logdir
 $ sudo docker run -it \
   --name test \
   -v /path/to/host/datadir:/var/lib/mysql \
