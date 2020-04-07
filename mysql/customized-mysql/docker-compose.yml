@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: customized-mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - /path/to/host/datadir:/var/lib/mysql
+      - /path/to/host/logdir:/var/log/mysql
+      - /path/to/host/cnfdir:/etc/mysql/conf.d
+    environment:
+      MYSQL_ROOT_PASSWORD: "user-pw"
