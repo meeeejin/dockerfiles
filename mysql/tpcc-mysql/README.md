@@ -70,5 +70,13 @@ meeeejin/tpcc-mysql   latest              6934971ecdb7        41 minutes ago    
 3. Run the image:
 
 ```bash
-$ sudo docker run -it --name test meeeejin/tpcc-mysql:latest
+$ sudo docker run -d --rm -it --name test meeeejin/tpcc-mysql:latest
+```
+
+4. Check the status of the created container:
+
+```bash
+$ sudo docker ps
+CONTAINER ID        IMAGE                        COMMAND                  CREATED             STATUS              PORTS                               NAMES
+2fdb277c41aa        meeeejin/tpcc-mysql:latest   "docker-entrypoint.s…"   8 minutes ago       Up 8 minutes        3306/tcp, 33060/tcp                 test
 ```
