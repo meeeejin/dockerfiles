@@ -1,6 +1,6 @@
 # MySQL 5.7 with LinkBench
 
-You can build a MySQL 5.7 instance with [LinkBench](https://github.com/facebookarchive/linkbench) installed via the [lb-mysql](https://hub.docker.com/repository/docker/meeeejin/lb-mysql) image. You can check the simplified installation guide of LinkBench in [my GitHub repo](https://github.com/meeeejin/til/blob/master/benchmark/how-to-install-linkbench-on-ubuntu.md).
+You can build a MySQL 5.7 instance with [LinkBench](https://github.com/facebookarchive/linkbench) installed via the [lb-mysql](https://hub.docker.com/r/meeeejin/tpcc-mysql) image. You can check the simplified installation guide of LinkBench in [my GitHub repo](https://github.com/meeeejin/til/blob/master/benchmark/how-to-install-linkbench-on-ubuntu.md).
 
 ## Preinstalled Packages for Monitoring
 
