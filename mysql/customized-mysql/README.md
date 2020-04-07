@@ -1,6 +1,8 @@
-# Standalone Customized MySQL 5.7
+# MySQL 5.7 with tpcc-mysql
 
-The `docker-compose.yml` describes how to build a MySQL 5.7 container with a customized configuration file (`my.cnf`).
+## Via `Dockfile` and `docker-compose.yml`
+
+These files describe how to create a MySQL 5.7 container with a customized configuration file (`my.cnf`) and tpcc-mysql in a single container.
 
 1. Edit `cnf/my.cnf` with the desired settings.
 
@@ -31,8 +33,9 @@ The `docker-compose.yml` describes how to build a MySQL 5.7 container with a cus
 4. Run `docker-compose up`:
 
 ```bash
-$ sudo docker-compose up -d
-Creating customized-mysql ... done
+$ sudo docker-compose up -d --build
+...
+Creating tpcc-mysql ... done
 ```
 
 5. You can check the created MySQL container using the below command:
@@ -40,24 +43,32 @@ Creating customized-mysql ... done
 ```bash
 $ sudo docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                               NAMES
-48e005d67d90        mysql:5.7           "docker-entrypoint.s…"   53 minutes ago      Up 32 minutes       0.0.0.0:3306->3306/tcp, 33060/tcp   customized-mysql
+48e005d67d90        mysql:5.7           "docker-entrypoint.s…"   53 minutes ago      Up 32 minutes       0.0.0.0:3306->3306/tcp, 33060/tcp   tpcc-mysql
 ```
 
-6. Run the below command to connect to the created container's bash:
+## Via Docker Hub
+
+I've pushed the [tpcc-mysql](https://hub.docker.com/r/meeeejin/tpcc-mysql) image created through the above process to the Docker Hub. You can `pull` the [tpcc-mysql](https://hub.docker.com/r/meeeejin/tpcc-mysql) image directly from the Docker Hub.
+
+1. Pull the image:
 
 ```bash
-$ sudo docker exec -it customized-mysql bash
+$ sudo docker pull meeeejin/tpcc-mysql:latest
+Pulling repository registry
+...
 ```
 
-7. Check the modified server variables in MySQL as follows:
+2. Check the downloaded image:
+
+```
+$ sudo docker images
+REPOSITORY            TAG                 IMAGE ID            CREATED             SIZE
+meeeejin/tpcc-mysql   latest              6934971ecdb7        41 minutes ago      649MB
+...
+```
+
+3. Run the image:
 
 ```bash
-root@89bb80313ac4:/# mysql -uroot -p -e "show variables like '%log_files%'"
-+---------------------------+-------+
-| Variable_name             | Value |
-+---------------------------+-------+
-| innodb_log_files_in_group | 3     |
-+---------------------------+-------+
+$ sudo docker run -it --name tpcc-mysql meeeejin/tpcc-mysql:latest
 ```
-
-The value of `innodb_log_files_in_group` was changed from 2 (default value) to 3 (the value set in `cnf/my.cnf`).
