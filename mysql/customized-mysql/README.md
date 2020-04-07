@@ -70,5 +70,5 @@ meeeejin/tpcc-mysql   latest              6934971ecdb7        41 minutes ago    
 3. Run the image:
 
 ```bash
-$ sudo docker run -it --name tpcc-mysql meeeejin/tpcc-mysql:latest
+$ sudo docker run -it --name test meeeejin/tpcc-mysql:latest
 ```
