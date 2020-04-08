@@ -39,8 +39,13 @@ $ sudo docker run -it \
   --name test \
   -v /path/to/host/datadir:/var/lib/mysql \
   -v /path/to/host/logdir:/var/log/mysql \
+  -v /path/to/host/cnfdir:/etc/mysql/conf.d \
   meeeejin/lb-mysql:latest
 ```
+
+- `/path/to/host/datadir`: The MySQL data directory of the host system
+- `/path/to/host/logdir`: The MySQL log directory of the host system
+- `/path/to/host/cnfdir`: The directory containing the customized `my.cnf` of the host system
 
 4. Check the status of the created container:
 
