@@ -48,7 +48,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 ## Via Docker Hub
 
-I've pushed the [tpcc-mysql](https://hub.docker.com/r/meeeejin/tpcc-mysql) image created through the above process to the Docker Hub. You can `pull` the [tpcc-mysql](https://hub.docker.com/r/meeeejin/tpcc-mysql) image directly from the Docker Hub.
+I've pushed the [tpcc-mysql](https://hub.docker.com/r/meeeejin/tpcc-mysql) image created through the above process to the Docker Hub. You can `pull` the [tpcc-mysql](https://hub.docker.com/r/meeeejin/tpcc-mysql) image directly from the Docker Hub. The default `MYSQL_ROOT_PASSWORD` is `vldb1234`, but you can change the value.
 
 1. Pull the image:
 
@@ -89,3 +89,69 @@ CONTAINER ID        IMAGE                        COMMAND                  CREATE
 2fdb277c41aa        meeeejin/tpcc-mysql:latest   "docker-entrypoint.s…"   8 minutes ago       Up 8 minutes        3306/tcp, 33060/tcp                 test
 ```
 
+### Load Data
+
+1. Create a database for TPC-C test:
+
+```bash
+$ cd root/tpcc-mysql
+$ mysql -u root -p -e "CREATE DATABASE tpcc100;"
+$ mysql -u root -p tpcc100 < create_table.sql
+$ mysql -u root -p tpcc100 < add_fkey_idx.sql
+```
+
+If the `load.sh` file does not have execute permission, add the permission.
+
+```bash
+$ chmod +x load.sh
+```
+
+2. Update the password in `load.sh`. For example:
+
+```bash
+export LD_LIBRARY_PATH=/usr/local/mysql/lib/mysql/
+DBNAME=$1
+WH=$2
+HOST=127.0.0.1
+STEP=100
+
+./tpcc_load -h $HOST -d $DBNAME -u root -p "vldb1234" -w $WH -l 1 -m 1 -n $WH >> 1.out &
+
+x=1
+
+while [ $x -le $WH ]
+do
+ echo $x $(( $x + $STEP - 1 ))
+./tpcc_load -h $HOST -d $DBNAME -u root -p "vldb1234" -w $WH -l 2 -m $x -n $(( $x + $STEP - 1 ))  >> 2_$x.out &
+./tpcc_load -h $HOST -d $DBNAME -u root -p "vldb1234" -w $WH -l 3 -m $x -n $(( $x + $STEP - 1 ))  >> 3_$x.out &
+./tpcc_load -h $HOST -d $DBNAME -u root -p "vldb1234" -w $WH -l 4 -m $x -n $(( $x + $STEP - 1 ))  >> 4_$x.out &
+ x=$(( $x + $STEP ))
+done
+```
+
+3. Run the load script:
+
+```bash
+$ load.sh tpcc100 100
+```
+
+In this case, database size is about 10 GB (= 100 warehouses).
+
+### Start Benchmark
+
+After loading, run tpcc-mysql test:
+
+```bash
+$ ./tpcc_start -h127.0.0.1 -dtpcc100 -uroot -pvldb1234 -w100 -c32 -r10 -l1200
+```
+
+It means:
+
+- Host: 127.0.0.1
+- DB: tpcc100
+- User: root
+- Password: vldb1234
+- Warehouse: 100
+- Connection: 32
+- Rampup time: 10 (sec)
+- Measure time: 1200 (sec)
