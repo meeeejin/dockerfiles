@@ -138,5 +138,5 @@ $ ./bin/linkbench -c config/MyConfig.properties -r
 LinkBench supports the output of statistics in csv format for easier analysis. There are two categories of statistics: the final summary and per-thread statistics output periodically through the benchmark. -csvstats controls the former and -csvstream the latter:
 
 ```bash
-$ ./bin/linkbench -c config/MyConfig.properties -csvstats final-stats.csv -csvstreams streaming-stats.csv -r
+$ ./bin/linkbench -c config/MyConfig.properties -csvstats final-stats.csv -csvstream streaming-stats.csv -r
 ```
